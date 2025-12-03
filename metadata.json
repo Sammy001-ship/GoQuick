@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Copy of Goquick Driver 2",
+  "description": "A comprehensive driver companion app for ride-sharing, featuring real-time dashboards, navigation, earnings tracking, and profile management.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
