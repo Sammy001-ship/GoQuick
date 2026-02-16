@@ -24,6 +24,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ withdrawalRequests = []
   const [selectedDoc, setSelectedDoc] = useState<any | null>(null);
 
   const pendingWithdrawals = withdrawalRequests.filter(r => r.status === 'Pending');
+  const recentWithdrawals = withdrawalRequests.slice(0, 3);
 
   const handleVerify = (id: number, approved: boolean) => {
     // In a real app, this sends an API request to update the DB
@@ -106,6 +107,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ withdrawalRequests = []
                   </div>
                 </div>
               ))}
+            </div>
+
+
+            {/* Latest Payout Requests */}
+            <div className="bg-white dark:bg-[#1F2937] p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-slate-900 dark:text-white">Latest Payout Requests</h3>
+                <button
+                  onClick={() => setActiveTab('payouts')}
+                  className="text-xs font-bold text-[#137fec] hover:underline"
+                >
+                  View all
+                </button>
+              </div>
+
+              {recentWithdrawals.length === 0 ? (
+                <p className="text-sm text-slate-500 dark:text-slate-400">No payout requests yet.</p>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  {recentWithdrawals.map((request) => (
+                    <div key={request.id} className="flex items-center justify-between rounded-lg bg-slate-50 dark:bg-slate-800/80 px-3 py-2">
+                      <div>
+                        <p className="text-sm font-semibold text-slate-900 dark:text-white">{request.driverName}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{request.bankName} • {request.accountNumber}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-bold text-slate-900 dark:text-white">₦{request.amount.toLocaleString()}</p>
+                        <p className={`text-[11px] font-semibold ${request.status === 'Pending' ? 'text-amber-600 dark:text-amber-400' : 'text-green-600 dark:text-green-400'}`}>
+                          {request.status}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Chart Placeholder */}
